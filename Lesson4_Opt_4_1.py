@@ -24,8 +24,13 @@ with tf.Session as sess:
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
 
-    STEPS = 3000
+    STEPS = 20000
     for i in range(STEPS):
         start = (i*BATCH_SIZE) % 32
         end = start + BATCH_SIZE
         sess.run(train_step,feed_dict={x:X[start:end],y_:Y[start:end]})
+        if i % 500 == 0:
+            total_loss = sess.run(train_step,feed_dict={x:X,y_:Y})
+            print("After %d train steps, total loss is %g"%(i,total_loss))
+    print("w1 is : \n",sess.run(w1))
+
